@@ -202,6 +202,24 @@ public class EntityWrapper {
         return false;
     }
 
+/**
+ * Returns <code>true</code> if the entity is a player, and the player has left-clicked in the past
+ * 4 ticks (+- 25 milliseconds). This method also considers the player's ping
+ * ({@link org.bukkit.entity.Player#getPing()}) to determine if they are still left-clicking.
+ *
+ * <p>
+ * Note: Unlike right-clicking, Minecraft doesn't offer a reliable server-side state for "holding"
+ * left click. WeaponMechanics approximates this by tracking the most recent left-click/arm-swing.
+ *
+ * @return <code>true</code> when the player is left-clicking.
+ */
+public boolean isLeftClicking() {
+    // Always false for other entities than players
+    // PlayerWrapper actually checks these
+    return false;
+}
+
+
     /**
      * Returns <code>true</code> if the entity is dual wielding, meaning when they have items equipped
      * in both hands.

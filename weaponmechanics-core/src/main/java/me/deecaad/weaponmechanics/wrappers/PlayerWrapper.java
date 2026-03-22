@@ -18,6 +18,7 @@ public class PlayerWrapper extends EntityWrapper {
 
     private final Player player;
     private long lastRightClick;
+    private long lastLeftClick;
     private long lastStartSneak;
     private long lastWeaponDrop;
     private long lastInventoryDrop;
@@ -45,6 +46,10 @@ public class PlayerWrapper extends EntityWrapper {
 
     public void rightClicked() {
         lastRightClick = System.currentTimeMillis();
+    }
+
+    public void leftClicked() {
+        lastLeftClick = System.currentTimeMillis();
     }
 
     public boolean didDoubleSneak() {
@@ -112,6 +117,18 @@ public class PlayerWrapper extends EntityWrapper {
         }
         return !NumberUtil.hasMillisPassed(lastRightClick, 215);
     }
+
+@Override
+public boolean isLeftClicking() {
+    // Approximate "holding" left click by checking how recently the player has swung/left-clicked.
+    // Use ping like right-clicking to reduce false negatives for high-latency players.
+    if (player.getPing() > 215) {
+        return !NumberUtil.hasMillisPassed(lastLeftClick, player.getPing() + 15);
+    }
+    return !NumberUtil.hasMillisPassed(lastLeftClick, 215);
+}
+
+
 
     @Override
     public boolean isSneaking() {

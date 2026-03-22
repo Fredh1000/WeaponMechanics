@@ -186,6 +186,11 @@ public class TriggerPlayerListeners implements Listener {
             // Fixes bug in 1.15+ where item dropping causes player to left click
             // Basically checks if less than 25 millis has passed since weapon item drop
             return;
+        } else {
+            // Only mark left click state for actual left click interactions.
+            // Otherwise switching from fully-auto left click to held right click keeps
+            // refreshing the left click compensation and the weapon never stops firing.
+            playerWrapper.leftClicked();
         }
 
         ItemStack mainStack = playerEquipment.getItemInMainHand();
@@ -259,6 +264,9 @@ public class TriggerPlayerListeners implements Listener {
             e.setCancelled(true);
             return;
         }
+
+        // Track arm swings as left clicks (helps FULLY_AUTOMATIC on LEFT_CLICK)
+        playerWrapper.leftClicked();
 
         ItemStack mainStack = playerEquipment.getItemInMainHand();
         String mainWeapon = weaponHandler.getInfoHandler().getWeaponTitle(mainStack, false);

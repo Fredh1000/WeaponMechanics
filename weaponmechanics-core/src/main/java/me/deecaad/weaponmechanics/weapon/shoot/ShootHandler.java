@@ -468,6 +468,7 @@ public class ShootHandler implements IValidator, TriggerListener {
             case START_SNEAK -> entityWrapper.isSneaking();
             case START_SPRINT -> entityWrapper.isSprinting();
             case RIGHT_CLICK -> entityWrapper.isRightClicking();
+            case LEFT_CLICK -> entityWrapper.isLeftClicking();
             case START_SWIM -> entityWrapper.isSwimming();
             case START_GLIDE -> entityWrapper.isGliding();
             case START_WALK -> entityWrapper.isWalking();
@@ -782,7 +783,7 @@ public class ShootHandler implements IValidator, TriggerListener {
             if (!invalidTrigger.isEmpty()) {
                 throw data.exception("Trigger", "Full_Automatic cannot use the trigger: " + invalidTrigger,
                     "Fully_Automatic can only use the following triggers:",
-                    "START_SNEAK, START_SPRINT, RIGHT_CLICK, START_SWIM, START_GLIDE, START_WALK, START_IN_MIDAIR and START_STAND.");
+                    "START_SNEAK, START_SPRINT, RIGHT_CLICK, LEFT_CLICK, START_SWIM, START_GLIDE, START_WALK, START_IN_MIDAIR and START_STAND.");
             }
         }
 
@@ -821,7 +822,7 @@ public class ShootHandler implements IValidator, TriggerListener {
             return false;
 
         return switch (triggerType) {
-            case START_SNEAK, START_SPRINT, RIGHT_CLICK,
+            case START_SNEAK, START_SPRINT, RIGHT_CLICK, LEFT_CLICK,
                 START_SWIM, START_GLIDE, START_WALK,
                 START_IN_MIDAIR, START_STAND -> false;
             default -> true;
